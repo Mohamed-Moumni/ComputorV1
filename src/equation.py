@@ -1,0 +1,2 @@
+class equation:
+    pass
