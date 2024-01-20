@@ -1,12 +1,13 @@
 import sys
-from parsing import parser
 
 
 def main():
     if len(sys.argv) != 2:
-        raise Exception("The program can accept just 2 args")
-    polynomial = parser(sys.argv[1])
+        raise ValueError("The program can accept just 2 args")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ValueError as e:
+        print(f"Error: {e}")
