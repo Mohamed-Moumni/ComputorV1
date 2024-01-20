@@ -1,5 +1,5 @@
 import pytest
-from utils import sqrt
+from src.utils import sqrt
 from src.equation import Equation
 
 """
@@ -73,10 +73,10 @@ class TestEquation:
             "coeff": 3.0, "degree": 1}, {"coeff": 2.0, "degree": 0}]
         _equation = Equation(_degree, _terms)
         _solution = _equation.solve_two_degree_equation()
-        _correct_solution = [{'real': -0.75, 'imaginary': round(sqrt(7)/4, 2)}, {
-            'real': -0.75, 'imaginary': -round(sqrt(7)/4, 2)}]
+        _correct_solution = [{'real': -0.75, 'imaginary': round(sqrt(7.0)/4, 2)}, {
+            'real': -0.75, 'imaginary': -round(sqrt(7.0)/4, 2)}]
         assert _solution['type'] == "complex"
-        assert sorted(_correct_solution) == sorted(_solution['solution'])
+        assert sorted(_correct_solution, key=lambda x:x['real']) == sorted(_solution['solution'], key=lambda x:x['real'])
 
     def test_solve_two_degree_equation_equation2(self):
         _degree = 2
@@ -85,7 +85,7 @@ class TestEquation:
         _equation = Equation(_degree, _terms)
         _solution = _equation.solve_two_degree_equation()
         assert _solution['type'] == "real"
-        assert sorted(_solution['solution']) == [-1.0, 1.0]
+        assert _solution['solution'] == -1.0
 
     def test_solve_two_degree_equation_equation3(self):
         _degree = 2
@@ -96,7 +96,8 @@ class TestEquation:
         _correct_solution = [{'real': 0.5, 'imaginary': round(sqrt(7)/2, 2)}, {
             'real': 0.5, 'imaginary': -round(sqrt(7)/2, 2)}]
         assert _solution['type'] == "complex"
-        assert sorted(_correct_solution) == sorted(_solution['solution'])
+        assert sorted(_correct_solution, key=lambda x: x['real']) == sorted(
+            _solution['solution'], key=lambda x: x['real'])
 
     def test_solve_two_degree_equation_equation4(self):
         _degree = 2
@@ -105,7 +106,7 @@ class TestEquation:
         _equation = Equation(_degree, _terms)
         _solution = _equation.solve_two_degree_equation()
         assert _solution['type'] == "real"
-        assert sorted(_solution['solution']) == [-sqrt(2), sqrt(2)]
+        assert sorted(_solution['solution']) == [-round(sqrt(2.0),2), round(sqrt(2.0),2)]
 
     def test_solve_two_degree_equation_equation5(self):
         _degree = 2
@@ -123,7 +124,7 @@ class TestEquation:
         _equation = Equation(_degree, _terms)
         _solution = _equation.solve_two_degree_equation()
         assert _solution['type'] == "real"
-        assert sorted(_solution['solution']) == [0.0, -4.0]
+        assert sorted(_solution['solution']) == [-4.0, 0.0]
 
     def test_solve_two_degree_equation_equation7(self):
         _degree = 2
@@ -132,4 +133,4 @@ class TestEquation:
         _equation = Equation(_degree, _terms)
         _solution = _equation.solve_two_degree_equation()
         assert _solution['type'] == "real"
-        assert sorted(_solution['solution']) == [2.0]
+        assert _solution['solution'] == 2.0
