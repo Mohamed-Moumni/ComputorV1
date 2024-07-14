@@ -9,3 +9,5 @@ This Repository contains polynomial Solver that solve the equations of the 1,2,3
 - [x] solve 1 degree equation
 - [x] solve 2 degree equation
 - [ ] solve 3 degree equation
+## Solution Visualisation
+- [ ] create a Visualisation for the solution
