@@ -1,0 +1,14 @@
+[project]
+name = "COMPUTERV1"
+version = "1.0"
+authors = [
+  { name="Mohamed Moumni", email="mmoumniwork@gmail.com" },
+]
+description = "Equation Solver"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]

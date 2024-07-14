@@ -1,5 +1,5 @@
 import sys
-
+from equation import Equation
 
 def main():
     if len(sys.argv) != 2:
