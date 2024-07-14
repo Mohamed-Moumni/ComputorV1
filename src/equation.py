@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from utils import sqrt, power_two
+from .utils import sqrt, power_two
 
 
 class Equation:
