@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/equation.py
+src/main.py
+src/utils.py
+src/COMPUTERV1.egg-info/PKG-INFO
+src/COMPUTERV1.egg-info/SOURCES.txt
+src/COMPUTERV1.egg-info/dependency_links.txt
+src/COMPUTERV1.egg-info/top_level.txt
+tests/test_equation.py

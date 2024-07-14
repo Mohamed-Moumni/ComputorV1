@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: COMPUTERV1
+Version: 1.0
+Summary: Equation Solver
+Author-email: Mohamed Moumni <mmoumniwork@gmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# ComputorV1
+
+This Repository contains polynomial Solver that solve the equations of the 1,2,3 degree and produce the reduced form of the equation in Python.
+
+# Tasks
+## Parse the Equation
+- [ ] parse the equation
+## Solve the Equation
+- [x] solve 1 degree equation
+- [x] solve 2 degree equation
+- [ ] solve 3 degree equation
