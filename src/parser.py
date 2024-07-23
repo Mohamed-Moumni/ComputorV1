@@ -1,66 +1,110 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple
+import re
 
 
 class Parser:
-
     def __init__(self, _equation: str) -> None:
         self.equation = _equation
+        self.remove_spaces()
 
-    def start(self) -> None:
-        equal_found: int = self.equation.find("=")
-        if equal_found == -1:
+    def start(self) -> List[Dict[str, float]]:
+        terms: List[Dict[str, float]] = []
+        equal_found: int = self.equation.count("=")
+        if equal_found == 0:
             raise SyntaxError("No Equal (=) sign found in The Equation")
         if equal_found > 1:
             raise SyntaxError("There are more than one equal Sign (=)")
         parsed_equation: List[str] = self.equation.split("=")
         left_side: str = parsed_equation[0]
         right_side: str = parsed_equation[1]
-        # parse right side of the equation
-        # parse left side of the equation
-        # combine the sides
-        # get the final equation that will be consumed by
-        # the Equation Class
+        if left_side != "0":
+            terms.append(Parser.parse_equation_side(left_side))
+        if right_side != "0":
+            terms.append(Parser.parse_equation_side(right_side))
+        return terms
+
+    def remove_spaces(self):
+        self.equation = re.sub(r"\s+", "", self.equation)
 
     @staticmethod
     def get_term(index: int, equation_side: str) -> Dict[str, float]:
-        pass
+        print(f"Index: {index} -- Equation Side: {equation_side[index:]}")
+        equation_side_len: int = len(equation_side)
+        term: Dict[str, float] = {}
+        coeff, index = Parser.get_coeff(index, equation_side)
+        print(f"Coefficient: {coeff}")
+        term["coeff"] = coeff
+        term["degree"] = 0
+        if index < equation_side_len and equation_side[index] == "*":
+            index = Parser.get_X_term(index + 1, equation_side)
+            degree, index = Parser.get_degree(index, equation_side)
+            print(f"Degree: {degree}")
+            term["degree"] = degree
+        return term, index
 
     @staticmethod
-    def skip_spaces(index: int, equation_side: str) -> int:
-        equation_side_len = len(equation_side)
-        while index < equation_side_len and equation_side[index].isspace():
-            index += 1
+    def get_coeff(index: int, equation_side: str) -> float:
+        print(f"Index: {index} -- Coeff Side: {equation_side[index:]}")
+        start: int = index
+        end: int = index
+        float_point: bool = False
+        equation_side_len: int = len(equation_side)
+        while end < equation_side_len:
+            if equation_side[end] == ".":
+                if not float_point:
+                    float_point = True
+                else:
+                    raise SyntaxError("Invalid Coefficient format")
+            elif not equation_side[end].isdigit():
+                break
+            end += 1
+        if start == end:
+            raise SyntaxError("Invalid Coeff Error")
+        return float(equation_side[start:end]), end
+
+    @staticmethod
+    def get_X_term(index: int, equation_side: str) -> None:
+        print(f"Index: {index} -- X Term Side: {equation_side[index:]}")
+        equation_side_len: int = len(equation_side)
+        if index < equation_side_len and equation_side[index] != "X":
+            raise SyntaxError("Term Syntax Error (X)")
+        index += 1
+        if index < equation_side_len and equation_side[index] != "^":
+            raise SyntaxError("Term Syntax Error (^)")
+        index += 1
         return index
 
     @staticmethod
-    def parse_equation_side(equation_side: str) -> List[Dict[str, float]]:
-        # there is a counter set to 0 at first
-        # i check the sign at first if there is no
-        # sign i accept it as positive
-        # for the next terms if there is no sign
-        # you have to raise an exception
-        # check Coefficient
-        #             |
-        #           1  2
-        # single degree Coeff
-        # multiple degree coeff
+    def get_degree(index: int, equation_side: str) -> int:
+        print(f"Index: {index} -- Degree Side: {equation_side[index:]}")
+        equation_side_len: int = len(equation_side)
+        start: int = index
+        end: int = index
+        degree = 0
+        while end < equation_side_len and equation_side[end].isdigit():
+            end += 1
+        if start == end:
+            raise SyntaxError("Invalid Degree")
+        degree = int(equation_side[start:end])
+        if degree > 3:
+            raise SyntaxError("You have to enter Degree between 0 <= degree <= 3")
+        return degree, end
 
+    @staticmethod
+    def parse_equation_side(equation_side: str) -> List[Dict[str, float]]:
         terms: List[Dict[str, float]] = []
         first_term: bool = True
         index: int = 0
-        equation_side_len: int = 0
+        equation_side_len: int = len(equation_side)
         while index < equation_side_len:
-            index = Parser.skip_spaces(index, equation_side)
-            if index == equation_side_len:
-                break
-
+            print(f"Iteration: {equation_side[index:]}")
             if first_term and equation_side[index] not in ["+", "-"]:
                 equation_side = "+" + equation_side
                 first_term = False
-
             if equation_side[index] not in ["+", "-"]:
                 raise SyntaxError("Error in your Equation Syntax")
             term, current_index = Parser.get_term(index + 1, equation_side)
+            print(f"TERM: {term}")
             terms.append(term)
             index = current_index
         if len(terms) == 0:
